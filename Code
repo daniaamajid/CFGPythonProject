@@ -1,0 +1,63 @@
+import csv
+
+def read_data():
+    data = []
+
+    with open('sales.csv', 'r') as sales_csv:
+        spreadsheet = csv.DictReader(sales_csv)
+        for row in spreadsheet:
+            data.append(row)
+
+    return data
+
+def run():
+    data = read_data()
+
+# Collecting all sales data into a single list
+    sales = []
+    for row in data:
+        sale = int(row['sales'])
+        sales.append(sale)
+
+# Finding the total sales for each month
+    total = sum(sales)
+    print('Total sales: {}' .format(total))
+
+# Finding the average sales per month:
+    def average(sales):
+        return sum(sales) / len(sales)
+
+    average = average(sales)
+    print('Average monthly sales:', round(average))
+
+#Finding the months with the highest and lowest sales:
+
+    highest = max(sales)
+    for row in data:
+        if int(highest) == int(row ['sales']):
+            print ('The month with the highest sales is', row ['month'])
+
+    lowest = min(sales)
+    for row in data:
+        if int(lowest) == int(row ['sales']):
+            print ('The month with the lowest sales is', row ['month'])
+
+
+#Outputting a summary of the results to a spreadsheet:
+    import csv
+
+    field_names = ['total sales', 'average monthly sales', 'month with the highest sales', 'month with the lowest sales']
+
+    data = [
+        {'total sales': (total)},
+        {'average monthly sales': round(average)},
+        {'month with the highest sales': (highest)},
+        {'month with the lowest sales': (lowest)},
+    ]
+
+    with open('output.csv', 'w+') as output_csv:
+        spreadsheet = csv.DictWriter(output_csv, fieldnames=field_names)
+
+        spreadsheet.writeheader()
+        spreadsheet.writerows(data)
+run()
